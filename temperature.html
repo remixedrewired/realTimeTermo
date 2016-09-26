@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D.Dhillon Temp Data</title>
+  <link type="text/css" rel="stylesheet" href="//pubnub.github.io/eon/v/eon/0.0.9/eon.css" />
+  <style type="text/css">
+
+  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+  body {
+      font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', 'Segoe UI', Helvetica, Arial, sans-serif;
+      margin: 1em;
+      background-color: lightgrey;
+
+  }
+  .header{
+    margin-bottom: 100px;
+    font-family:sans-serif;
+    color: white;
+    font-weight: 100;
+    background-color: black;
+  }
+
+  </style>
+</head>
+<body>
+
+  <h1 class="header">Real Time Temperature Visualization via Arduino using a Temp Sensor</h1>
+
+<div id="chart1"></div>
+<div id="chart2"></div>
+
+
+<script src="//cdn.pubnub.com/pubnub-3.10.2.js"></script>
+<script src="//pubnub.github.io/eon/v/eon/0.0.9/eon.js"></script>
+<script>
+
+//initialize pubnub
+var pubnub = PUBNUB.init({
+  publish_key: 'pub-c-073d8746-d2e5-492b-9ed5-66a40f6b561f',
+  subscribe_key: 'sub-c-70085a74-8131-11e6-a8c4-0619f8945a4f'
+});
+
+//using same channnel from temperature.js for eon.chart
+var channel = 'temperature-ds18b20';
+eon.chart({
+  channel: channel,
+  generate: {
+    bindto: '#chart1',
+    data: {
+      type: 'line',
+      colors: {
+        temperature: '#663399'
+      }
+    },
+    axis: {
+      x: {
+        type: 'timeseries',
+        tick: {
+          format: '%H:%m:%S',
+          fit: true
+        },
+        label: {
+          text: 'Time',
+        }
+      },
+      y: {
+        label: {
+          text: ' Temperature in Celsius',
+          position: 'outer-middle'
+        },
+        tick: {
+          format: function (d) {
+            var df = Number( d3.format('.2f')(d) );
+            return df;
+          }
+        }
+      }
+  }
+},
+
+
+//The transform() function takes raw data sent from the sensor to fit in the schema for EON
+pubnub: pubnub,
+limit: 30,
+transform: function(m) {
+  return { eon: {
+      temperature: m.temperature
+    }}
+  }
+});
+
+// var channel = 'temperature-ds18b20';
+// eon.chart({
+//   channel: channel,
+//   pubnub: pubnub,
+//   generate: {
+//     bindto: '#chart2',
+//     data: {
+//       type: 'gauge',
+//     },
+//     gauge: {
+//       min: 0,
+//       max: 100
+//     },
+//     color: {
+//       pattern: ['#FF0000', '#F6C600', '#60B044'],
+//       threshold: {
+//         values: [40, 70, 100]
+//       }
+//     }
+//   }
+// },
+// pubnub: pubnub,
+//   transform: function(m) {
+//     return { eon: {
+//       temperature: m.tempf,
+//     }}
+//   }
+// });
+
+
+
+
+</script>
+</body>
+</html>
