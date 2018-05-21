@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // Declare schema
-var datasetSchema = new mongoose.Schema({
+const datasetSchema = new mongoose.Schema({
     index: {type: String, required: true, index: {unique: true}},
     name: {type: String, required: true},
     owner_name: {type: String, required: true},

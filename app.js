@@ -1,4 +1,4 @@
-var express = require("express");
+const express = require("express");
     path = require("path"),
     favicon = require("serve-favicon"),
     logger = require("morgan"),
@@ -16,24 +16,24 @@ mongoose.connect("mongodb://localhost/iotdb", function(err) {
 });
 
 // Loading DB models
-var user = require("./models/users"),
+const user = require("./models/users"),
     dataset = require("./models/datasets");
 
 //  Loading routes
-var routes = require("./routes/index");
+const routes = require("./routes/index");
     users = require("./routes/users"),
     datasets = require("./routes/datasets");
     temperature= require("./routes/temperature.js")
 
 // Start app
-var app = express();
+const app = express();
 
 app.get('/temperature', function(req, res) {
     res.sendFile(path.join(__dirname + '/temperature.html'));
 });
-app.get('/light', function(req, res) {
-    res.sendFile(path.join(__dirname + '/light.html'));
-});
+// app.get('/light', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/light.html'));
+// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -72,7 +72,7 @@ app.use("/datasets", datasets);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error("Not Found");
+  let err = new Error("Not Found");
   err.status = 404;
   next(err);
 });

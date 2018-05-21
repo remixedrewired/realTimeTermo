@@ -1,17 +1,29 @@
-var mongoose = require("mongoose"),
+const mongoose = require("mongoose"),
     bcrypt = require("bcrypt"),
     SALT_WORK_FACTOR = 10; // used to resist rainbow table and brute force attacks
 
 // Declare schema
-var userSchema = new mongoose.Schema({
-    name: {type: String, required: true, index: {unique: true}},
-    password: {type: String, required: true},
-    created_on: {type: Date, default: Date.now}
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        index: {
+            unique: true
+        }
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    created_on: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 // Add hashing middleware to schema
 userSchema.pre("save", function(next) {
-    var user = this;
+    const user = this;
 
     // only hash password if it has been modified (or is new)
     if (!user.isModified("password")) return next();

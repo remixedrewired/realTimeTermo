@@ -13,9 +13,11 @@
     "express-session": "^1.11.3",
     "hat": "0.0.3",
     "jade": "~1.11.0",
+    "johnny-five": "^0.14.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.1.7",
     "morgan": "~1.6.1",
+    "pubnub": "^4.20.2",
     "serve-favicon": "~2.3.0"
   }
 }

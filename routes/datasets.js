@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     router = express.Router(),
     hat = require("hat"),
     mongoose = require("mongoose"),
@@ -8,11 +8,11 @@ var express = require("express"),
 // GET request to push data to the dataset
 router.get("/update", function(req, res) {
     // Get values from request arguments
-    var apiKey = req.query.key;
+    const apiKey = req.query.key;
     delete req.query.key; // flush api key value so we only keep values concerning variables
 
-    var values = [];
-    var updateQuery = {};
+    let values = [];
+    let updateQuery = {};
 
     // Find dataset by write API key
     // Send status code for each case : -1 if error, 0 if no dataset found and 1 if update successful

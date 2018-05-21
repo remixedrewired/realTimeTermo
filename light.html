@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>D.Dhillon Temp Data</title>
+  <title>Temp/Light Data</title>
   <link type="text/css" rel="stylesheet" href="//pubnub.github.io/eon/v/eon/0.0.9/eon.css" />
 
   <style type="text/css">
@@ -25,12 +25,11 @@
   #chart1 .c3-line-temperature {
   stroke-width: 3px;
   }
-
   </style>
 </head>
 <body>
 
-  <h1 class="header">Real Time Light Visualization via Arduino using a Temp Sensor</h1>
+  <h1 class="header">Real Time Light Visualization via Arduino using a Temp and Light Sensors</h1>
 
 <div id="chart1"></div>
 <div id="chart2"></div>
@@ -41,13 +40,13 @@
 <script>
 
 //initialize pubnub
-var pubnub = PUBNUB.init({
-  publish_key: 'pub-c-073d8746-d2e5-492b-9ed5-66a40f6b561f',
-  subscribe_key: 'sub-c-70085a74-8131-11e6-a8c4-0619f8945a4f'
+const pubnub = PUBNUB.init({
+  publish_key: 'pub-c-1a33e74f-10fe-45ad-b6b4-f2dda25251c6',
+  subscribe_key: 'sub-c-ebe2b4f8-2506-11e8-bb29-5a43d096f02f'
 });
 
 //using same channnel from temperature.js for eon.chart
-var channel = 'lightsensor';
+const channel = 'lightsensor';
 eon.chart({
   channel: channel,
   generate: {

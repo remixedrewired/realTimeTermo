@@ -1,8 +1,8 @@
 var five = require('johnny-five');
 
 var pubnub = require('pubnub')({
-  publish_key: 'pub-c-073d8746-d2e5-492b-9ed5-66a40f6b561f',
-  subscribe_key: 'sub-c-70085a74-8131-11e6-a8c4-0619f8945a4f'
+  publish_key: 'pub-c-1a33e74f-10fe-45ad-b6b4-f2dda25251c6',
+  subscribe_key: 'sub-c-ebe2b4f8-2506-11e8-bb29-5a43d096f02f'
 });
 
 var channel = 'lightsensor';
@@ -24,7 +24,7 @@ function publish() {
 five.Board().on('ready', function() {
 
   photoresistor = new five.Sensor({
-    pin: 'A2',
+    pin: 'A7',
     freq: 250
   });
 
