@@ -6,7 +6,8 @@
   <title>Temp/Humidity Data</title>
   <link type="text/css" rel="stylesheet" href="//pubnub.github.io/eon/v/eon/0.0.9/eon.css" />
   <link type="text/css" rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
-
+  <script src="//cdn.pubnub.com/pubnub-3.10.2.js"></script>
+  <script src="//pubnub.github.io/eon/v/eon/0.0.9/eon.js"></script>
   <style type="text/css">
     * {
       -moz-box-sizing: border-box;
@@ -23,8 +24,6 @@
     body {
       font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', 'Segoe UI', Helvetica, Arial, sans-serif;
       margin: 1em;
-
-
     }
 
     #chart1 {
@@ -49,7 +48,7 @@
 
 
     #temp,
-    #light,
+    #humidity,
     #pot {
       flex: 1;
       margin: 20px;
@@ -101,16 +100,14 @@
   <h1 class="header">Real Time Temperature/Humidity Visualization via Arduino using Sensors</h1>
   <div id="chart1">
     <div id="temp"></div>
-    <div id="light"></div>
+    <div id="humidity"></div>
   </div>
   <div id="chart2">
     <div id="temp-gauge"></div>
-    <div id="light-gauge"></div>
+    <div id="humidity-gauge"></div>
   </div>
 
 
-  <script src="//cdn.pubnub.com/pubnub-3.10.2.js"></script>
-  <script src="//pubnub.github.io/eon/v/eon/0.0.9/eon.js"></script>
   <script>
     //initialize pubnub
     const pubnub = PUBNUB.init({
@@ -124,7 +121,7 @@
     eon.chart({
       channel: channel,
       generate: {
-        bindto: '#light',
+        bindto: '#humidity',
         data: {
           type: 'line'
         },
@@ -158,7 +155,7 @@
       transform: function (m) {
         return {
           eon: {  
-            light: m.light
+            humidity: m.humidity
           }
         }
       }
@@ -213,7 +210,7 @@
     eon.chart({
       channel: channel,
       generate: {
-        bindto: '#light-gauge',
+        bindto: '#humidity-gauge',
         data: {
           type: 'gauge',
         },
@@ -237,7 +234,7 @@
       transform: function (m) {
         return {
           eon: {
-            light: m.light,
+            humidity: m.humidity,
           }
         }
       }
