@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     router = express.Router(),
     helper = require("../utils"),
     mongoose = require("mongoose"),
@@ -8,8 +8,8 @@ var express = require("express"),
 /* Views controllers */
 // GET landing page
 router.get("/", function(req, res, next) {
-    var errorMessage = req.session.error;
-    var successMessage = req.session.success;
+    const errorMessage = req.session.error;
+    const successMessage = req.session.success;
 
     // since messages have been served, delete from session
     delete req.session.error;
@@ -29,13 +29,12 @@ router.get("/", function(req, res, next) {
             res.render("setup");
         }
     });
-
 });
 
 // GET setup page
 router.get("/setup", function(req, res) {
-    var errorMessage = req.session.error;
-    var successMessage = req.session.success;
+    const errorMessage = req.session.error;
+    const successMessage = req.session.success;
 
     // since messages have been served, delete from session
     delete req.session.error;
@@ -47,9 +46,9 @@ router.get("/setup", function(req, res) {
 
 // GET index page
 router.get("/index", helper.authenticate, function(req, res, next) {
-    var sessionUser = req.session.user.name;
-    var errorMessage = req.session.error;
-    var successMessage = req.session.success;
+    const sessionUser = req.session.user.name;
+    const errorMessage = req.session.error;
+    const successMessage = req.session.success;
 
     // since messages have been served, delete from session
     delete req.session.error;
@@ -72,8 +71,8 @@ router.get("/index", helper.authenticate, function(req, res, next) {
 
 // GET settings page
 router.get("/settings", helper.authenticate, function(req, res) {
-    var errorMessage = req.session.error;
-    var successMessage = req.session.success;
+    const errorMessage = req.session.error;
+    const successMessage = req.session.success;
 
     // since messages have been served, delete from session
     delete req.session.error;
@@ -88,8 +87,8 @@ router.get("/settings", helper.authenticate, function(req, res) {
 // POST setup request
 router.post("/setup", function(req, res) {
     // Get values from POST request
-    var username = req.body.username;
-    var password = req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
     // Create new user document
     User.create({
@@ -114,8 +113,8 @@ router.post("/setup", function(req, res) {
 // POST login request
 router.post("/login", function(req, res) {
     // Get values form POST request
-    var username = req.body.username;
-    var password = req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
     // Find user document by username
     // If a user is returned but the passwords do not match, send error message indicating wrong password
@@ -150,8 +149,8 @@ router.post("/login", function(req, res) {
 
 // GET logout request
 router.get("/logout", helper.authenticate, function(req, res) {
-    var errorMessage = req.session.error;
-    var successMessage = req.session.success;
+    const errorMessage = req.session.error;
+    const successMessage = req.session.success;
 
     // Regenerate new session; session.detroy() is not used as we still want
     // the error/success messages to be served to the endpoint

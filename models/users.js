@@ -1,9 +1,11 @@
 const mongoose = require("mongoose"),
+    Schema = mongoose.Schema;
     bcrypt = require("bcrypt"),
     SALT_WORK_FACTOR = 10; // used to resist rainbow table and brute force attacks
 
 // Declare schema
 const userSchema = new mongoose.Schema({
+    _id: Schema.Types.ObjectId, 
     name: {
         type: String,
         required: true,
@@ -18,7 +20,8 @@ const userSchema = new mongoose.Schema({
     created_on: {
         type: Date,
         default: Date.now
-    }
+    },
+    records: [{ type: Schema.Types.ObjectId, ref: 'Record' }]
 });
 
 // Add hashing middleware to schema

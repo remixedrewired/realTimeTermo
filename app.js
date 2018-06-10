@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"),
     path = require("path"),
     favicon = require("serve-favicon"),
     logger = require("morgan"),
@@ -7,8 +7,11 @@ const express = require("express");
     methodOverride = require("method-override"),
     mongoose = require("mongoose"),
     session = require("express-session"),
-    MongoStore = require("connect-mongo")(session);
-
+    MongoStore = require("connect-mongo")(session),
+    app = express(),
+    fs = require('fs'),
+    moment = require('moment');
+    
 // Connect to mongodb
 mongoose.connect("mongodb://localhost/iotdb", function(err) {
     if (err) throw err;
@@ -17,23 +20,13 @@ mongoose.connect("mongodb://localhost/iotdb", function(err) {
 
 // Loading DB models
 const user = require("./models/users"),
-    dataset = require("./models/datasets");
+    dataset = require("./models/datasets"),
+    record = require('./models/records');
 
 //  Loading routes
-const routes = require("./routes/index");
+const routes = require("./routes/index"),
     users = require("./routes/users"),
     datasets = require("./routes/datasets");
-    temperature= require("./routes/temperature.js")
-
-// Start app
-const app = express();
-
-app.get('/temperature', function(req, res) {
-    res.sendFile(path.join(__dirname + '/temperature.html'));
-});
-// app.get('/light', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/light.html'));
-// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -69,6 +62,36 @@ app.use(methodOverride(function(req, res){
 app.use("/", routes);
 app.use("/users", users);
 app.use("/datasets", datasets);
+app.get('/temperature',
+  (req, res, next) => {
+    require("./routes/temperature.js")(req.session.user._id, next);
+  },
+  (req, res) => {
+    res.sendFile(path.join(__dirname + '/temperature.html'));
+  }
+);
+
+app.get('/save', (req, res) => {
+  const Record = mongoose.model("Record");
+  Record.find({'user_id': req.session.user._id}, (err, records) => {
+    if (err) {
+      return res.status(500).json({ err });
+    }
+    else {
+      const dateTime = moment().format('YYYYMMDDhhmmss');
+      const filePath = path.join(__dirname, dateTime + ".json");
+      const jsonRecord = JSON.stringify(records);
+      fs.writeFile(filePath, jsonRecord, function (err) {
+        if (err) {
+          return res.json(err).status(500);
+        }
+        else {
+          return res.download(path.join(__dirname, dateTime + ".json"));
+        }
+      });
+    }
+  })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
